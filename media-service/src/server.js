@@ -6,7 +6,7 @@ const helmet = require("helmet");
 const mediaRoutes = require("./routes/media-routes");
 const errorHandler = require("./middleware/errorHandler");
 const logger = require("./utils/logger");
-const { consumeEvent } = require("./utils/rabbitmq");
+const { consumeEvent, connectToRabbitMQ } = require("./utils/rabbitmq");
 const { handlePostDeleted } = require("./eventHandlers/media-event-handlers");
 
 const app = express();
@@ -42,7 +42,7 @@ async function startServer(){
             logger.info(`Media service running on port ${PORT}`);
         });
     }catch(e){
-        logger.error("Failed to connect to server");
+        logger.error("Failed to connect to server", e);
         process.exit(1);
     }
 }

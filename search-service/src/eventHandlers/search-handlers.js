@@ -21,12 +21,12 @@ async function handlePostCreated(event){
 async function handlePostDeleted(event){
     try{
 
-        await Search.findByIdAndDelete({event:event.postId});
+        await Search.findOneAndDelete({postId:event.postId});
         logger.info("Search post deleted: ", event.postId);
 
 
     }catch(e){
-        logger.error(e, "Error handling post creation event");
+        logger.error("Error handling post Deletion event", e);
     }
 }
 
