@@ -27,7 +27,7 @@ async function publishEvent(routingKey, message){
 
     channel.publish(EXCHANGE_NAME, routingKey, Buffer.from(JSON.stringify(message)));
 
-    logger.info("Entvent Published: ", routingKey);
+    logger.info("Event Published: ", routingKey);
 }
 
 async function consumeEvent(routingKey, callback){
