@@ -1,5 +1,16 @@
 const Search = require("../models/Search");
 const logger = require("../utils/logger");
+const Redis = require("ioredis");
+
+const redisClient = new Redis(process.env.REDIS_URL);
+
+async function invalidateSearchCache(){
+    const keys = await redisClient.keys("searches:*");
+    if(keys.length>0){
+        await redisClient.del(keys);
+    }
+
+}
 
 async function handlePostCreated(event){
     try{
@@ -11,6 +22,7 @@ async function handlePostCreated(event){
         });
 
         await newSearchPost.save();
+        await invalidateSearchCache();
         logger.info("Search post created: ", event.postId, ", ", newSearchPost._id.toString());
 
     }catch(e){
@@ -22,6 +34,7 @@ async function handlePostDeleted(event){
     try{
 
         await Search.findOneAndDelete({postId:event.postId});
+        await invalidateSearchCache();
         logger.info("Search post deleted: ", event.postId);
 
 

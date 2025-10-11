@@ -32,7 +32,10 @@ app.use((req,res,next)=>{
 });
 
 //will implement the caching
-app.use("/api/search", searchRoutes);
+app.use("/api/search", (req, res, next) => {
+    req.redisClient = redisClient;
+    next();
+},searchRoutes);
 
 
 app.use(errorHandler);
