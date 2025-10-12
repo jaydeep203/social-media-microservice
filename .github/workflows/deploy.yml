@@ -54,5 +54,21 @@ jobs:
 
       - name: SSH into VM and Deploy
         uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: 45.xx.xx.xx
+          username: root
+          key: ${{secrets.VM_SSH_PRIVATE_KEY}}
+          port: 22
+          script: |
+            cd /home/root/projects/media-microservices
+            git pull origin master
+            docker-compose down
+            docker-compose up -d 
+
+      - name: Debug SSH connection (Optional)
+        run: |
+          ssh -v -i ~/.ssh/id_rsa root@45.xx.xx.xx "echo 'SSH connection successful'"
+        continue-on-error: true
+          
         
     
