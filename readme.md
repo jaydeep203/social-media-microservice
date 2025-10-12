@@ -22,6 +22,10 @@ Each service is a small Express.js application with its own responsibilities and
 - `search-service` indexes and searches post content; it consumes post.created and post.deleted events to keep its index up to date.
 - `redis` is used by services for rate limiting and caching.
 
+## Architecture Diagram
+
+![Sequence Flow](./SequenceFlow.png)
+
 ## Run with Docker Compose (recommended for local dev)
 
 Environment files for each service are expected next to each service folder (e.g. `identity-service/.env`).
